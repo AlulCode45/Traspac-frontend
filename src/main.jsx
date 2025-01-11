@@ -6,8 +6,8 @@ import {routes} from "./routes/routes.jsx";
 import {Toaster} from "react-hot-toast";
 
 createRoot(document.getElementById('root')).render(
-    <StrictMode>
-        <Toaster/>
-        <RouterProvider router={routes}/>
-    </StrictMode>,
+  <>
+      <Toaster/>
+      <RouterProvider router={routes}/>
+  </>
 )
