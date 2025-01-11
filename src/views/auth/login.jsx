@@ -2,17 +2,24 @@ import {useState} from "react";
 import {authLogin} from "../../services/authService.js";
 import {useNavigate} from "react-router-dom";
 import toast from "react-hot-toast";
+import {useAuthStore} from "../../store/authStore.js";
 
 function Login() {
     const navigate = useNavigate()
     const [email,setEmail] = useState()
     const [password,setPassword] = useState()
+    const setAuthState = useAuthStore((state) => state.setAuthState);
 
     const handleSubmit = async (e) =>{
         e.preventDefault()
-        const status = await authLogin(email,password)
-        if(status){
-            sessionStorage.setItem('token',status.data.token)
+        const response = await authLogin(email,password)
+        if(response){
+            sessionStorage.setItem('token',response.data.token)
+            const authState = {
+                isLoggedIn: true,
+                user: response.data,
+            }
+            setAuthState(authState)
             toast.success('Login successfully')
             navigate('/dashboard')
         }else{
