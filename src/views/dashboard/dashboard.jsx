@@ -1,35 +1,46 @@
 function Dashboard(props) {
     return (
         <>
-            <div className="grid grid-cols-3 gap-4">
-                <div
-                    className="bg-white p-5 rounded-md flex justify-between border-s-4 border-blue-300 items-center shadow-md">
-                    <div className="card-content">
-                        <h2 className='text-xl'>Jumlah Pegawai</h2>
-                    </div>
-                    <div className="card-count flex flex-col items-center">
-                        <b className='text-4xl'>20</b>
-                        <small>Orang</small>
-                    </div>
-                </div>
-                <div
-                    className="bg-white p-5 rounded-md flex justify-between border-s-4 border-red-300 items-center shadow-md">
-                    <div className="card-content">
-                        <h2 className='text-xl'>Jumlah Unit Kerja</h2>
-                    </div>
-                    <div className="card-count flex flex-col items-center">
-                        <b className='text-4xl'>20</b>
-                        <small>Unit</small>
+            <div className="grid grid-cols-3 gap-3">
+                <div className="relative p-6 rounded-2xl bg-white shadow">
+                    <div className="space-y-2">
+                        <div
+                            className="flex items-center space-x-2 rtl:space-x-reverse text-sm font-medium text-gray-500"
+                        >
+                            <span>Jumlah Karyawan</span>
+                        </div>
+
+                        <div className="text-3xl">
+                            192
+                        </div>
                     </div>
                 </div>
-                <div
-                    className="bg-white p-5 rounded-md flex justify-between border-s-4 border-green-300 items-center shadow-md">
-                    <div className="card-content">
-                        <h2 className='text-xl'>Jumlah Data Jabatan</h2>
+
+                <div className="relative p-6 rounded-2xl bg-white shadow">
+                    <div className="space-y-2">
+                        <div
+                            className="flex items-center space-x-2 rtl:space-x-reverse text-sm font-medium text-gray-500"
+                        >
+                            <span>Jumlah Unit</span>
+                        </div>
+
+                        <div className="text-3xl">
+                            24
+                        </div>
                     </div>
-                    <div className="card-count flex flex-col items-center">
-                        <b className='text-4xl'>20</b>
-                        <small>Jabatan</small>
+                </div>
+
+                <div className="relative p-6 rounded-2xl bg-white shadow">
+                    <div className="space-y-2">
+                        <div
+                            className="flex items-center space-x-2 rtl:space-x-reverse text-sm font-medium text-gray-500"
+                        >
+                            <span>Jumlah Jabatan</span>
+                        </div>
+
+                        <div className="text-3xl">
+                            15
+                        </div>
                     </div>
                 </div>
             </div>
