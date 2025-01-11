@@ -16,8 +16,18 @@ const authLogin = async (email,password) => {
 
 const authLogout = async () => {
     try{
-        const response = await client.post(API_URL+'/auth/logout')
-        return response.data
+        await client.post('/auth/logout')
+        sessionStorage.removeItem('token')
+        sessionStorage.removeItem('user')
+        return true
+    } catch (error) {
+        console.error(error)
+    }
+}
+
+const getUserProfile = async () => {
+    try{
+        return await client.get('/user').then(res => res.data)
     } catch (error) {
         console.error(error)
     }
@@ -26,4 +36,5 @@ const authLogout = async () => {
 export {
     authLogin,
     authLogout,
+    getUserProfile
 }
