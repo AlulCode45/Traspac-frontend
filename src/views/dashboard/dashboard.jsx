@@ -1,4 +1,4 @@
-function Dashboard(props) {
+function Dashboard() {
     return (
         <>
             <div className="grid grid-cols-3 gap-3">
