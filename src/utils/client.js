@@ -6,7 +6,8 @@ const client = axios.create({
 })
 
 client.interceptors.request.use(config => {
-    config.headers.Authorization = 'Bearer ' + localStorage.getItem('token')
+    config.headers.Authorization = 'Bearer ' + sessionStorage.getItem('token')
+    return config;
 })
 
 export default client
