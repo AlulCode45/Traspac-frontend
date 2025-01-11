@@ -1,8 +1,8 @@
-function App(props) {
+function Login(props) {
     return (
         <>
         </>
     );
 }
 
-export default App;
+export default Login;
