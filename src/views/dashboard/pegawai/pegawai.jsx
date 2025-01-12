@@ -8,11 +8,13 @@ import CreatePegawaiModal from "../../../components/dashboard/pegawai/createPega
 import {deletePegawai, getPegawai, storePegawai} from "../../../services/pegawaiService.js";
 import {usePegawaiStore} from "../../../store/pegawaiStore.js";
 import toast from "react-hot-toast";
+import {useNavigate} from "react-router-dom";
 
 export default function Pegawai() {
     const [open, setOpen] = useState(false);
     const setPegawaiState = usePegawaiStore(state => state.setPegawaiData)
     const pegawaiData = usePegawaiStore(state => state.data)
+    const navigate = useNavigate()
 
     const [formData, setFormData] = useState({
         nip: '',
@@ -23,10 +25,10 @@ export default function Pegawai() {
         jenis_kelamin: 'L',
         golongan: 'I/a',
         eselon: '1',
-        jabatan: '',
+        jabatan_id: '',
         tempat_tugas: '',
         agama: 'ISLAM',
-        unit_kerja: '',
+        unit_kerja_id: '',
         no_hp: '',
         npwp: '',
     });
@@ -38,14 +40,14 @@ export default function Pegawai() {
             field: 'jabatan',
             headerName: 'Jabatan',
             width: 180,
-            valueGetter: (params) => params?.row?.jabatan?.jabatan || '-',
+            valueGetter: (params) => params?.jabatan || '-',
         },
         {field: 'tempat_tugas', headerName: 'Tempat Tugas', width: 150},
         {
             field: 'unit_kerja',
             headerName: 'Unit Kerja',
             width: 150,
-            valueGetter: (params) => params?.row?.unit_kerja?.unit_kerja || '-',
+            valueGetter: (params) => params?.unit_kerja || '-',
         },
         {field: 'npwp', headerName: 'NPWP', width: 150}, {
             field: 'actions',
@@ -54,8 +56,8 @@ export default function Pegawai() {
             sortable: false,
             renderCell: (params) => (
                 <div className={'flex gap-2 items-center'}>
-                    <button className={'p-2 bg-blue-500 text-white rounded-md'}><FaEye/></button>
-                    <button className={'p-2 bg-yellow-500 text-white rounded-md'}><FaEdit/></button>
+                    <button className={'p-2 bg-blue-500 text-white rounded-md'} onClick={() => navigate(`/dashboard/pegawai/${params?.row?.id}`)} ><FaEye/></button>
+                    <button className={'p-2 bg-yellow-500 text-white rounded-md'} onClick={() => navigate(`/dashboard/pegawai/${params?.row?.id}/edit`)}><FaEdit/></button>
                     <button className={'p-2 bg-red-500 text-white rounded-md'} onClick={() => handleDeleteData(params?.row?.id)}><FaTrash/></button>
                 </div>
             ),
