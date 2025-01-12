@@ -2,34 +2,20 @@ import {useState} from 'react';
 import {Button, MenuItem, Modal, TextField} from "@mui/material";
 
 function CreatePegawaiModal(props) {
-    const {open,setOpen} = props;
-    const [formData, setFormData] = useState({
-        nip: '',
-        nama: '',
-        tempat_lahir: '',
-        tanggal_lahir: '',
-        alamat: '',
-        jenis_kelamin: 'Laki-laki',
-        golongan: 'IA',
-        eselon: '',
-        jabatan: '',
-        tempat_tugas: '',
-        agama: 'Islam',
-        unit_kerja: '',
-        no_hp: '',
-        npwp: '',
-    });
+    const {open,setOpen,formData,setFormData, onModalSubmit} = props;
 
     const handleChange = (e) => {
         const { name, value } = e.target;
         setFormData({ ...formData, [name]: value });
     };
 
-    const handleSubmit = (e) => {
-        e.preventDefault();
-        console.log('Form Data Submitted:', formData);
-        setOpen(false);
-    };
+    const golonganOptions = [
+        "I/a", "I/b", "I/c", "I/d",
+        "II/a", "II/b", "II/c", "II/d",
+        "III/a", "III/b", "III/c", "III/d",
+        "IV/a", "IV/b", "IV/c", "IV/d", "IV/e"
+    ];
+
     return (
         <Modal
             open={open}
@@ -42,7 +28,7 @@ function CreatePegawaiModal(props) {
                     <h2 className="text-lg font-semibold mb-4" id="modal-form-title">
                         Tambah Data Pegawai
                     </h2>
-                    <form onSubmit={handleSubmit} className="space-y-4">
+                    <form onSubmit={onModalSubmit} className="space-y-4">
                         <TextField
                             label="NIP"
                             name="nip"
@@ -95,8 +81,8 @@ function CreatePegawaiModal(props) {
                             fullWidth
                             required
                         >
-                            <MenuItem value="Laki-laki">Laki-laki</MenuItem>
-                            <MenuItem value="Perempuan">Perempuan</MenuItem>
+                            <MenuItem value="L">Laki-laki</MenuItem>
+                            <MenuItem value="P">Perempuan</MenuItem>
                         </TextField>
                         <TextField
                             label="Golongan"
@@ -107,10 +93,11 @@ function CreatePegawaiModal(props) {
                             fullWidth
                             required
                         >
-                            <MenuItem value="IA">IA</MenuItem>
-                            <MenuItem value="IB">IB</MenuItem>
-                            <MenuItem value="IC">IC</MenuItem>
-                            {/* Tambahkan opsi lainnya */}
+                            {golonganOptions.map((golongan) => (
+                                <MenuItem key={golongan} value={golongan}>
+                                    {golongan}
+                                </MenuItem>
+                            ))}
                         </TextField>
                         <TextField
                             label="Eselon"
@@ -143,11 +130,12 @@ function CreatePegawaiModal(props) {
                             fullWidth
                             required
                         >
-                            <MenuItem value="Islam">Islam</MenuItem>
-                            <MenuItem value="Kristen">Kristen</MenuItem>
-                            <MenuItem value="Hindu">Hindu</MenuItem>
-                            <MenuItem value="Budha">Budha</MenuItem>
-                            {/* Tambahkan opsi lainnya */}
+                            <MenuItem value="ISLAM">Islam</MenuItem>
+                            <MenuItem value="KRISTEN">Kristen</MenuItem>
+                            <MenuItem value="HINDU">Hindu</MenuItem>
+                            <MenuItem value="BUDHA">Budha</MenuItem>
+                            <MenuItem value="KATOLIK">Katolik</MenuItem>
+                            <MenuItem value="KONGHUCU">Konghucu</MenuItem>
                         </TextField>
                         <TextField
                             label="Unit Kerja"
