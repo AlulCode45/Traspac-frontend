@@ -4,6 +4,8 @@ import {getPegawaiById} from "../../../services/pegawaiService.js";
 import {useParams} from "react-router-dom";
 import {useUnitKerjaStore} from "../../../store/unitKerjaStore.js";
 import {getUnitKerja} from "../../../services/unitKerjaService.js";
+import {getJabatan} from "../../../services/jabatanService.js";
+import {useJabatanStore} from "../../../store/jabatanStore.js";
 
 function EditPegawai() {
     const {id} = useParams()
@@ -16,7 +18,7 @@ function EditPegawai() {
         jenis_kelamin: 'L',
         golongan: 'I/a',
         eselon: '1',
-        jabatan: '',
+        jabatan_id: '',
         tempat_tugas: '',
         agama: 'ISLAM',
         unit_kerja_id: '',
@@ -35,6 +37,8 @@ function EditPegawai() {
     ];
     const setUnitKerjaState = useUnitKerjaStore(state => state.setUnitKerjaData)
     const unitKerjaState = useUnitKerjaStore(state => state.data)
+    const setJabatanState = useJabatanStore(state => state.setJabatanData)
+    const jabatanState = useJabatanStore(state => state.data)
 
     useEffect(() => {
         const getDetailPegawai = async () => {
@@ -57,8 +61,20 @@ function EditPegawai() {
             }
         }
 
+        const getJabatanData = async () => {
+            if (jabatanState.length === 0) {
+                return await getJabatan().then(res => {
+                    setJabatanState(res.data)
+                    console.log(res.data)
+                }).catch(err => {
+                    console.log(err)
+                })
+            }
+        }
+
         getUnitKerjaData()
         getDetailPegawai()
+        getJabatanData()
     },[id])
 
     return (
@@ -173,11 +189,18 @@ function EditPegawai() {
                     </TextField>
                     <TextField
                         label="Jabatan"
-                        name="jabatan"
-                        value={formData.jabatan}
+                        name="jabatan_id"
+                        value={formData.jabatan_id}
                         onChange={handleChange}
                         fullWidth
-                    />
+                        select
+                    >
+                        {jabatanState.map((jabatan) => (
+                            <MenuItem key={jabatan.id} value={jabatan.id}>
+                                {jabatan.jabatan}
+                            </MenuItem>
+                        ))}
+                    </TextField>
                 </Box>
                 <Box sx={{
                     display: 'flex',

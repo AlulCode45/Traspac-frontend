@@ -2,6 +2,8 @@ import {useEffect, useState} from 'react';
 import {Button, MenuItem, Modal, TextField} from "@mui/material";
 import {useUnitKerjaStore} from "../../../store/unitKerjaStore.js";
 import {getUnitKerja} from "../../../services/unitKerjaService.js";
+import {useJabatanStore} from "../../../store/jabatanStore.js";
+import {getJabatan} from "../../../services/jabatanService.js";
 
 function CreatePegawaiModal(props) {
     const {open,setOpen,formData,setFormData, onModalSubmit} = props;
@@ -19,6 +21,8 @@ function CreatePegawaiModal(props) {
     ];
     const setUnitKerjaState = useUnitKerjaStore(state => state.setUnitKerjaData)
     const unitKerjaState = useUnitKerjaStore(state => state.data)
+    const setJabatanState = useJabatanStore(state => state.setJabatanData)
+    const jabatanState = useJabatanStore(state => state.data)
 
     useEffect(() => {
         const getUnitKerjaData = async () => {
@@ -32,7 +36,19 @@ function CreatePegawaiModal(props) {
             }
         }
 
+        const getJabatanData = async () => {
+            if (jabatanState.length === 0) {
+                return await getJabatan().then(res => {
+                    setJabatanState(res.data)
+                    console.log(res.data)
+                }).catch(err => {
+                    console.log(err)
+                })
+            }
+        }
+
         getUnitKerjaData()
+        getJabatanData()
     }, []);
 
     return (
@@ -140,7 +156,14 @@ function CreatePegawaiModal(props) {
                             value={formData.jabatan_id}
                             onChange={handleChange}
                             fullWidth
-                        />
+                            select
+                        >
+                            {jabatanState.map((jabatan) => (
+                                <MenuItem key={jabatan.id} value={jabatan.id}>
+                                    {jabatan.jabatan}
+                                </MenuItem>
+                            ))}
+                        </TextField>
                         <TextField
                             label="Tempat Tugas"
                             name="tempat_tugas"
