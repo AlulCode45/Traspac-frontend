@@ -1,5 +1,7 @@
-import {useState} from 'react';
+import {useEffect, useState} from 'react';
 import {Button, MenuItem, Modal, TextField} from "@mui/material";
+import {useUnitKerjaStore} from "../../../store/unitKerjaStore.js";
+import {getUnitKerja} from "../../../services/unitKerjaService.js";
 
 function CreatePegawaiModal(props) {
     const {open,setOpen,formData,setFormData, onModalSubmit} = props;
@@ -15,6 +17,23 @@ function CreatePegawaiModal(props) {
         "III/a", "III/b", "III/c", "III/d",
         "IV/a", "IV/b", "IV/c", "IV/d", "IV/e"
     ];
+    const setUnitKerjaState = useUnitKerjaStore(state => state.setUnitKerjaData)
+    const unitKerjaState = useUnitKerjaStore(state => state.data)
+
+    useEffect(() => {
+        const getUnitKerjaData = async () => {
+            if (unitKerjaState.length === 0) {
+                return await getUnitKerja().then(res => {
+                    setUnitKerjaState(res.data)
+                    console.log(res.data)
+                }).catch(err => {
+                    console.log(err)
+                })
+            }
+        }
+
+        getUnitKerjaData()
+    }, []);
 
     return (
         <Modal
@@ -117,8 +136,8 @@ function CreatePegawaiModal(props) {
                         </TextField>
                         <TextField
                             label="Jabatan"
-                            name="jabatan"
-                            value={formData.jabatan}
+                            name="jabatan_id"
+                            value={formData.jabatan_id}
                             onChange={handleChange}
                             fullWidth
                         />
@@ -147,11 +166,18 @@ function CreatePegawaiModal(props) {
                         </TextField>
                         <TextField
                             label="Unit Kerja"
-                            name="unit_kerja"
-                            value={formData.unit_kerja}
+                            name="unit_kerja_id"
+                            value={formData.unit_kerja_id}
                             onChange={handleChange}
                             fullWidth
-                        />
+                            select
+                        >
+                            {unitKerjaState.map((unit_kerja) => (
+                                <MenuItem key={unit_kerja.id} value={unit_kerja.id}>
+                                    {unit_kerja.unit_kerja}
+                                </MenuItem>
+                            ))}
+                        </TextField>
                         <TextField
                             label="No HP"
                             name="no_hp"
