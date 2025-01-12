@@ -34,6 +34,7 @@ function CreatePegawaiModal(props) {
                             name="nip"
                             value={formData.nip}
                             onChange={handleChange}
+                            type={'number'}
                             fullWidth
                             required
                         />
@@ -104,9 +105,16 @@ function CreatePegawaiModal(props) {
                             name="eselon"
                             value={formData.eselon}
                             onChange={handleChange}
-                            type="number"
+                            select
                             fullWidth
-                        />
+                            required
+                        >
+                            <MenuItem value={1}>Eselon 1</MenuItem>
+                            <MenuItem value={2}>Eselon 2</MenuItem>
+                            <MenuItem value={3}>Eselon 3</MenuItem>
+                            <MenuItem value={4}>Eselon 4</MenuItem>
+                            <MenuItem value={5}>Eselon 5</MenuItem>
+                        </TextField>
                         <TextField
                             label="Jabatan"
                             name="jabatan"

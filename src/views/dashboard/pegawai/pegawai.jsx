@@ -22,7 +22,7 @@ export default function Pegawai() {
         alamat: '',
         jenis_kelamin: 'L',
         golongan: 'I/a',
-        eselon: '',
+        eselon: '1',
         jabatan: '',
         tempat_tugas: '',
         agama: 'ISLAM',
