@@ -6,6 +6,7 @@ const getPegawai = async () => {
         return response.data;
     } catch (error) {
         console.error(error);
+        return error;
     }
 }
 
@@ -15,6 +16,7 @@ const getPegawaiById = async (id) => {
         return response.data;
     } catch (error) {
         console.error(error);
+        return error;
     }
 }
 
@@ -24,6 +26,7 @@ const storePegawai = async (data) => {
         return response.data;
     } catch (error) {
         console.error(error);
+        return error;
     }
 }
 
@@ -33,6 +36,7 @@ const updatePegawai = async (id,data) => {
         return response.data;
     } catch (error) {
         console.error(error);
+        return error;
     }
 }
 
@@ -42,6 +46,7 @@ const deletePegawai = async (id) => {
         return response.data;
     } catch (error) {
         console.error(error);
+        return error;
     }
 }
 
