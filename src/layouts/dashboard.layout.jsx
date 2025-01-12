@@ -42,7 +42,7 @@ function DashboardLayout() {
         <div className="bg-gray-100 min-h-screen">
             <div className="flex gap-2">
                 <Sidebar/>
-                <main className="p-5 flex-1 overflow-x-auto">
+                <main className="p-5 flex-1 overflow-auto h-screen">
                     <Topbar/>
                     <Outlet/>
                 </main>
