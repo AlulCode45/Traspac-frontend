@@ -41,10 +41,10 @@ function DashboardLayout() {
     return (
         <div className="bg-gray-100 min-h-screen">
             <div className="flex gap-2">
-                <Sidebar />
-                <main className="p-5 flex-1">
-                    <Topbar />
-                    <Outlet />
+                <Sidebar/>
+                <main className="p-5 flex-1 overflow-x-auto">
+                    <Topbar/>
+                    <Outlet/>
                 </main>
             </div>
         </div>
