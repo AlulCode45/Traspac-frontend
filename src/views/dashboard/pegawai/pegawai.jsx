@@ -70,6 +70,23 @@ export default function Pegawai() {
             if(res?.meta?.status !== 201){
                 throw new Error(res);
             }
+            setFormData({
+                nip: '',
+                nama: '',
+                tempat_lahir: '',
+                tanggal_lahir: '',
+                alamat: '',
+                jenis_kelamin: 'L',
+                golongan: 'I/a',
+                eselon: '1',
+                jabatan_id: '',
+                tempat_tugas: '',
+                agama: 'ISLAM',
+                unit_kerja_id: '',
+                no_hp: '',
+                npwp: '',
+            })
+            setOpen(false);
             toast.success("Berhasil menambahkan pegawai baru!");
             return setPegawaiState([
                 ...pegawaiData,
