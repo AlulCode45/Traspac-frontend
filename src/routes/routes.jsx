@@ -5,6 +5,7 @@ import Login from "../views/auth/login.jsx";
 import Pegawai from "../views/dashboard/pegawai/pegawai.jsx";
 import DetailPegawai from "../views/dashboard/pegawai/detailPegawai.jsx";
 import EditPegawai from "../views/dashboard/pegawai/editPegawai.jsx";
+import Unitkerja from "../views/dashboard/unitkerja/unitkerja.jsx";
 
 
 const routes = createBrowserRouter([
@@ -31,6 +32,10 @@ const routes = createBrowserRouter([
             {
                 path: 'pegawai/:id/edit',
                 element: <EditPegawai/>,
+            },
+            {
+                path:'unit-kerja',
+                element: <Unitkerja/>
             }
         ]
     }
