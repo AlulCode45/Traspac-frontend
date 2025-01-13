@@ -1,11 +1,13 @@
 import React, {useEffect, useState} from 'react';
 import {Box, Button, MenuItem, TextField} from "@mui/material";
-import {getPegawaiById} from "../../../services/pegawaiService.js";
+import {getPegawaiById, updatePegawai} from "../../../services/pegawaiService.js";
 import {useParams} from "react-router-dom";
 import {useUnitKerjaStore} from "../../../store/unitKerjaStore.js";
 import {getUnitKerja} from "../../../services/unitKerjaService.js";
 import {getJabatan} from "../../../services/jabatanService.js";
 import {useJabatanStore} from "../../../store/jabatanStore.js";
+import toast from "react-hot-toast";
+import error from "eslint-plugin-react/lib/util/error.js";
 
 function EditPegawai() {
     const {id} = useParams()
@@ -40,6 +42,18 @@ function EditPegawai() {
     const setJabatanState = useJabatanStore(state => state.setJabatanData)
     const jabatanState = useJabatanStore(state => state.data)
 
+    const handleSubmit = async (e) => {
+        e.preventDefault()
+        return await updatePegawai(id, formData).then(res => {
+            if(res?.meta?.status !== 200){
+                throw new Error(res)
+            }
+            toast.success('Data berhasil diubah')
+        }).catch(err => {
+            toast.error('Data gagal diubah')
+            console.log(err)
+        })
+    }
     useEffect(() => {
         const getDetailPegawai = async () => {
             return await getPegawaiById(id).then(res => {
@@ -88,8 +102,7 @@ function EditPegawai() {
                 </div>
             </div>
 
-            <form onSubmit={() => {
-            }} className="space-y-4">
+            <form onSubmit={handleSubmit} className="space-y-4">
                 <TextField
                     label="NIP"
                     name="nip"
