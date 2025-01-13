@@ -6,6 +6,7 @@ import Pegawai from "../views/dashboard/pegawai/pegawai.jsx";
 import DetailPegawai from "../views/dashboard/pegawai/detailPegawai.jsx";
 import EditPegawai from "../views/dashboard/pegawai/editPegawai.jsx";
 import Unitkerja from "../views/dashboard/unitkerja/unitkerja.jsx";
+import Jabatan from "../views/dashboard/jabatan/jabatan.jsx";
 
 
 const routes = createBrowserRouter([
@@ -36,6 +37,10 @@ const routes = createBrowserRouter([
             {
                 path:'unit-kerja',
                 element: <Unitkerja/>
+            },
+            {
+                path:'jabatan',
+                element: <Jabatan/>
             }
         ]
     }
