@@ -1,4 +1,23 @@
+import {useEffect, useState} from "react";
+import client from "../../utils/client.js";
+
 function Dashboard() {
+    const [count, setCount] = useState({
+        karyawan: 0,
+        unit_kerja: 0,
+        jabatan: 0,
+    });
+    useEffect(() => {
+        const getCount = async () => {
+            return await client.get('/count-all').then(res => {
+                setCount(res.data.data)
+            }).catch(err => {
+                console.log(err)
+            })
+        }
+
+        getCount()
+    }, [])
     return (
         <>
             <div className="grid grid-cols-3 gap-3">
@@ -11,7 +30,7 @@ function Dashboard() {
                         </div>
 
                         <div className="text-3xl">
-                            192
+                            {count.karyawan}
                         </div>
                     </div>
                 </div>
@@ -25,7 +44,7 @@ function Dashboard() {
                         </div>
 
                         <div className="text-3xl">
-                            24
+                            {count.unit_kerja}
                         </div>
                     </div>
                 </div>
@@ -39,7 +58,7 @@ function Dashboard() {
                         </div>
 
                         <div className="text-3xl">
-                            15
+                            {count.jabatan}
                         </div>
                     </div>
                 </div>
