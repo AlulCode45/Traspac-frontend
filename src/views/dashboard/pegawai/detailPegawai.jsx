@@ -2,6 +2,8 @@ import {useNavigate, useParams} from "react-router-dom";
 import React, {useEffect, useState} from "react";
 import {getPegawaiById} from "../../../services/pegawaiService.js";
 import {STORAGE_URL} from "../../../utils/constant.js";
+import Zoom from 'react-medium-image-zoom'
+import 'react-medium-image-zoom/dist/styles.css'
 
 function DetailPegawai() {
     const { id } = useParams();
@@ -40,11 +42,13 @@ function DetailPegawai() {
                     <div className="py-3 sm:py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
                         <dt className="text-sm font-medium text-gray-500">Foto Pegawai</dt>
                         <dd className="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
-                            <img
-                                src={`${STORAGE_URL+pegawai?.photo_profile}`}
-                                alt="Foto Profil"
-                                className="rounded-md h-32 w-24  block"
-                            />
+                            <Zoom>
+                                <img
+                                    src={`${STORAGE_URL + pegawai?.photo_profile}`}
+                                    alt="Foto Profil"
+                                    className="rounded-md h-32 w-24  block"
+                                />
+                            </Zoom>
                         </dd>
                     </div>
                     <div className="py-3 sm:py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
