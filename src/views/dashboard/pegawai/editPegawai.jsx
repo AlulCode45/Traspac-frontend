@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import {Box, Button, MenuItem, TextField} from "@mui/material";
+import {Box, Button, MenuItem, styled, TextField} from "@mui/material";
 import {getPegawaiById, updatePegawai} from "../../../services/pegawaiService.js";
 import {useParams} from "react-router-dom";
 import {useUnitKerjaStore} from "../../../store/unitKerjaStore.js";
@@ -7,11 +7,14 @@ import {getUnitKerja} from "../../../services/unitKerjaService.js";
 import {getJabatan} from "../../../services/jabatanService.js";
 import {useJabatanStore} from "../../../store/jabatanStore.js";
 import toast from "react-hot-toast";
-import error from "eslint-plugin-react/lib/util/error.js";
+import {FaUpload} from "@react-icons/all-files/fa/FaUpload.js";
+import {FaCloud} from "@react-icons/all-files/fa/FaCloud.js";
+import {STORAGE_URL} from "../../../utils/constant.js";
 
 function EditPegawai() {
     const {id} = useParams()
     const [formData, setFormData] = useState({
+        photo_profile: '',
         nip: '',
         nama: '',
         tempat_lahir: '',
@@ -41,11 +44,12 @@ function EditPegawai() {
     const unitKerjaState = useUnitKerjaStore(state => state.data)
     const setJabatanState = useJabatanStore(state => state.setJabatanData)
     const jabatanState = useJabatanStore(state => state.data)
+    const [profile, setProfile] = useState('')
 
     const handleSubmit = async (e) => {
         e.preventDefault()
         return await updatePegawai(id, formData).then(res => {
-            if(res?.meta?.status !== 200){
+            if (res?.meta?.status !== 200) {
                 throw new Error(res)
             }
             toast.success('Data berhasil diubah')
@@ -58,6 +62,7 @@ function EditPegawai() {
         const getDetailPegawai = async () => {
             return await getPegawaiById(id).then(res => {
                 setFormData(res.data)
+                setProfile(STORAGE_URL + res.data.photo_profile)
                 console.log(res.data)
             }).catch(err => {
                 console.log(err)
@@ -89,7 +94,19 @@ function EditPegawai() {
         getUnitKerjaData()
         getDetailPegawai()
         getJabatanData()
-    },[id])
+    }, [id])
+
+    const VisuallyHiddenInput = styled('input')({
+        clip: 'rect(0 0 0 0)',
+        clipPath: 'inset(50%)',
+        height: 1,
+        overflow: 'hidden',
+        position: 'absolute',
+        bottom: 0,
+        left: 0,
+        whiteSpace: 'nowrap',
+        width: 1,
+    });
 
     return (
         <div className={'bg-white p-5 rounded-md shadow-md'}>
@@ -103,6 +120,28 @@ function EditPegawai() {
             </div>
 
             <form onSubmit={handleSubmit} className="space-y-4">
+                <img
+                    src={`${profile}`}
+                    alt="Foto Profil"
+                    className="rounded-md h-32 w-24 block"
+                />
+                <Button
+                    component="label"
+                    role={undefined}
+                    variant="contained"
+                    tabIndex={-1}
+                    startIcon={<FaCloud/>}
+                >
+                    Upload Foto
+                    <VisuallyHiddenInput
+                        type="file"
+                        name={'photo_profile'}
+                        onChange={e => {
+                            setFormData({...formData, photo_profile: e.target.files[0]});
+                            setProfile(URL.createObjectURL(e.target.files[0]))
+                        }}
+                    />
+                </Button>
                 <TextField
                     label="NIP"
                     name="nip"
