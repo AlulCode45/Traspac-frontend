@@ -32,7 +32,11 @@ const storePegawai = async (data) => {
 
 const updatePegawai = async (id,data) => {
     try{
-        const response = await client.put(`/karyawan/${id}`, data);
+        const response = await client.post(`/karyawan/${id}?_method=PUT`, data,{
+            headers: {
+                'Content-Type': 'multipart/form-data'
+            }
+        });
         return response.data;
     } catch (error) {
         console.error(error);
