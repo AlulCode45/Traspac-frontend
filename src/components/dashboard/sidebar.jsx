@@ -18,8 +18,11 @@ function Sidebar(props) {
             '/dashboard/unit-kerja': 2,
             '/dashboard/jabatan': 3,
         };
-        const currentTab = pathToTab[location.pathname] ?? 0;
-        setActiveTab(currentTab);
+
+        const basePath = location.pathname.split('/').slice(0, 3).join('/');
+
+        const currentTab = Object.keys(pathToTab).find(path => basePath === path);
+        setActiveTab(pathToTab[currentTab] ?? 0);
     }, [location.pathname]);
 
     const handleLogout = async () => {
