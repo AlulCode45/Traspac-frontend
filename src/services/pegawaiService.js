@@ -22,7 +22,11 @@ const getPegawaiById = async (id) => {
 
 const storePegawai = async (data) => {
     try{
-        const response = await client.post("/karyawan", data);
+        const response = await client.post("/karyawan", data,{
+            headers:{
+                'Content-Type': 'multipart/form-data'
+            }
+        });
         return response.data;
     } catch (error) {
         console.error(error);
