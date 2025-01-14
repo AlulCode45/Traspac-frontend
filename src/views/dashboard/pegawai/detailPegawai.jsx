@@ -1,9 +1,9 @@
-import {useNavigate, useParams} from "react-router-dom";
-import React, {useEffect, useState} from "react";
-import {getPegawaiById} from "../../../services/pegawaiService.js";
-import {STORAGE_URL} from "../../../utils/constant.js";
-import Zoom from 'react-medium-image-zoom'
-import 'react-medium-image-zoom/dist/styles.css'
+import { useNavigate, useParams } from "react-router-dom";
+import { useEffect, useState } from "react";
+import { getPegawaiById } from "../../../services/pegawaiService.js";
+import { STORAGE_URL } from "../../../utils/constant.js";
+import Zoom from "react-medium-image-zoom";
+import "react-medium-image-zoom/dist/styles.css";
 
 function DetailPegawai() {
     const { id } = useParams();
@@ -12,124 +12,66 @@ function DetailPegawai() {
 
     useEffect(() => {
         const getDetailPegawai = async () => {
-            return await getPegawaiById(id).then(res => {
-                setPegawai(res.data)
-                console.log(res.data)
-            }).catch(err => {
-                console.log(err)
-            })
-        }
+            try {
+                const res = await getPegawaiById(id);
+                setPegawai(res.data);
+            } catch (err) {
+                console.error(err);
+            }
+        };
 
-        getDetailPegawai()
-    },[id])
-
+        getDetailPegawai();
+    }, [id]);
 
     return (
-        <div className="bg-white overflow-hidden shadow rounded-lg border">
-            <div className="px-4 py-5 sm:px-6 flex items-center justify-between">
-                <div className="card-title">
-                    <h3 className="text-lg leading-6 font-medium text-gray-900">Profil Pegawai</h3>
-                    <p className="mt-1 max-w-2xl text-sm text-gray-500">
-                        Informasi detail mengenai pegawai?.
-                    </p>
+        <div className="bg-white shadow-lg rounded-lg border overflow-hidden">
+            <div className="px-6 py-4 flex items-center justify-between border-b">
+                <div>
+                    <h3 className="text-lg font-semibold text-gray-800">Profil Pegawai</h3>
+                    <p className="text-sm text-gray-600">Informasi detail mengenai pegawai.</p>
                 </div>
-                <div className="card-actions">
-                    <button className="bg-blue-500 rounded-md text-white px-5 py-2 font-semibold" onClick={() => navigate(`/dashboard/pegawai/${id}/edit`)} >Edit</button>
-                </div>
+                <button
+                    className="bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700"
+                    onClick={() => navigate(`/dashboard/pegawai/${id}/edit`)}
+                >
+                    Edit
+                </button>
             </div>
-            <div className="border-t border-gray-200 px-4 py-5 sm:p-0">
-                <dl className="sm:divide-y sm:divide-gray-200">
-                    <div className="py-3 sm:py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
-                        <dt className="text-sm font-medium text-gray-500">Foto Pegawai</dt>
-                        <dd className="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
+            <div className="p-6 divide-y divide-gray-200">
+                <div className="py-4 grid grid-cols-3 gap-4">
+                    <dt className="text-sm font-medium text-gray-500">Foto Pegawai</dt>
+                    <dd className="col-span-2">
+                        {pegawai?.photo_profile && (
                             <Zoom>
                                 <img
-                                    src={`${STORAGE_URL + pegawai?.photo_profile}`}
+                                    src={`${STORAGE_URL + pegawai.photo_profile}`}
                                     alt="Foto Profil"
-                                    className="rounded-md h-32 w-24  block"
+                                    className="h-32 w-24 rounded-md object-cover"
                                 />
                             </Zoom>
-                        </dd>
+                        )}
+                    </dd>
+                </div>
+                {[
+                    { label: "NIP", value: pegawai?.nip },
+                    { label: "Nama", value: pegawai?.nama },
+                    { label: "Tempat, Tanggal Lahir", value: `${pegawai?.tempat_lahir || ''}, ${pegawai?.tanggal_lahir || ''}` },
+                    { label: "Alamat", value: pegawai?.alamat },
+                    { label: "Jenis Kelamin", value: pegawai?.jenis_kelamin },
+                    { label: "Golongan", value: pegawai?.golongan },
+                    { label: "Eselon", value: pegawai?.eselon },
+                    { label: "Jabatan", value: pegawai?.jabatan?.jabatan },
+                    { label: "Tempat Tugas", value: pegawai?.tempat_tugas },
+                    { label: "Agama", value: pegawai?.agama },
+                    { label: "Unit Kerja", value: pegawai?.unit_kerja?.unit_kerja },
+                    { label: "No HP", value: pegawai?.no_hp },
+                    { label: "NPWP", value: pegawai?.npwp },
+                ].map((item, index) => (
+                    <div key={index} className="py-4 grid grid-cols-3 gap-4">
+                        <dt className="text-sm font-medium text-gray-500">{item.label}</dt>
+                        <dd className="text-sm text-gray-900 col-span-2">{item.value || '-'}</dd>
                     </div>
-                    <div className="py-3 sm:py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
-                        <dt className="text-sm font-medium text-gray-500">NIP</dt>
-                        <dd className="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
-                            {pegawai?.nip}
-                        </dd>
-                    </div>
-                    <div className="py-3 sm:py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
-                        <dt className="text-sm font-medium text-gray-500">Nama</dt>
-                        <dd className="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
-                            {pegawai?.nama}
-                        </dd>
-                    </div>
-                    <div className="py-3 sm:py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
-                        <dt className="text-sm font-medium text-gray-500">Tempat, Tanggal Lahir</dt>
-                        <dd className="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
-                            {pegawai?.tempat_lahir}, {pegawai?.tanggal_lahir}
-                        </dd>
-                    </div>
-                    <div className="py-3 sm:py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
-                        <dt className="text-sm font-medium text-gray-500">Alamat</dt>
-                        <dd className="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
-                            {pegawai?.alamat}
-                        </dd>
-                    </div>
-                    <div className="py-3 sm:py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
-                        <dt className="text-sm font-medium text-gray-500">Jenis Kelamin</dt>
-                        <dd className="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
-                            {pegawai?.jenis_kelamin}
-                        </dd>
-                    </div>
-                    <div className="py-3 sm:py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
-                        <dt className="text-sm font-medium text-gray-500">Golongan</dt>
-                        <dd className="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
-                            {pegawai?.golongan}
-                        </dd>
-                    </div>
-                    <div className="py-3 sm:py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
-                        <dt className="text-sm font-medium text-gray-500">Eselon</dt>
-                        <dd className="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
-                            {pegawai?.eselon}
-                        </dd>
-                    </div>
-                    <div className="py-3 sm:py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
-                        <dt className="text-sm font-medium text-gray-500">Jabatan</dt>
-                        <dd className="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
-                            {pegawai?.jabatan?.jabatan}
-                        </dd>
-                    </div>
-                    <div className="py-3 sm:py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
-                        <dt className="text-sm font-medium text-gray-500">Tempat Tugas</dt>
-                        <dd className="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
-                            {pegawai?.tempat_tugas}
-                        </dd>
-                    </div>
-                    <div className="py-3 sm:py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
-                        <dt className="text-sm font-medium text-gray-500">Agama</dt>
-                        <dd className="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
-                            {pegawai?.agama}
-                        </dd>
-                    </div>
-                    <div className="py-3 sm:py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
-                        <dt className="text-sm font-medium text-gray-500">Unit Kerja</dt>
-                        <dd className="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
-                            {pegawai?.unit_kerja?.unit_kerja}
-                        </dd>
-                    </div>
-                    <div className="py-3 sm:py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
-                        <dt className="text-sm font-medium text-gray-500">No HP</dt>
-                        <dd className="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
-                            {pegawai?.no_hp}
-                        </dd>
-                    </div>
-                    <div className="py-3 sm:py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
-                        <dt className="text-sm font-medium text-gray-500">NPWP</dt>
-                        <dd className="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
-                            {pegawai?.npwp}
-                        </dd>
-                    </div>
-                </dl>
+                ))}
             </div>
         </div>
     );
