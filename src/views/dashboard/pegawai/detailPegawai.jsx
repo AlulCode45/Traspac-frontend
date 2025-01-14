@@ -1,6 +1,7 @@
 import {useNavigate, useParams} from "react-router-dom";
 import React, {useEffect, useState} from "react";
 import {getPegawaiById} from "../../../services/pegawaiService.js";
+import {STORAGE_URL} from "../../../utils/constant.js";
 
 function DetailPegawai() {
     const { id } = useParams();
@@ -40,9 +41,9 @@ function DetailPegawai() {
                         <dt className="text-sm font-medium text-gray-500">Foto Pegawai</dt>
                         <dd className="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
                             <img
-                                src="https://picsum.photos/200/300"
+                                src={`${STORAGE_URL+pegawai?.photo_profile}`}
                                 alt="Foto Profil"
-                                className="rounded-md w-full h-32 w-20  block"
+                                className="rounded-md h-32 w-24  block"
                             />
                         </dd>
                     </div>
