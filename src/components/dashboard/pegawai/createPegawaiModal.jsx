@@ -1,9 +1,10 @@
-import {useEffect, useState} from 'react';
-import {Button, MenuItem, Modal, TextField} from "@mui/material";
+import React, {useEffect, useState} from 'react';
+import {Button, MenuItem, Modal, styled, TextField} from "@mui/material";
 import {useUnitKerjaStore} from "../../../store/unitKerjaStore.js";
 import {getUnitKerja} from "../../../services/unitKerjaService.js";
 import {useJabatanStore} from "../../../store/jabatanStore.js";
 import {getJabatan} from "../../../services/jabatanService.js";
+import {FaCloud} from "@react-icons/all-files/fa/FaCloud.js";
 
 function CreatePegawaiModal(props) {
     const {open,setOpen,formData,setFormData, onModalSubmit} = props;
@@ -23,6 +24,7 @@ function CreatePegawaiModal(props) {
     const unitKerjaState = useUnitKerjaStore(state => state.data)
     const setJabatanState = useJabatanStore(state => state.setJabatanData)
     const jabatanState = useJabatanStore(state => state.data)
+    const [profile, setProfile] = useState('')
 
     useEffect(() => {
         const getUnitKerjaData = async () => {
@@ -51,6 +53,17 @@ function CreatePegawaiModal(props) {
         getJabatanData()
     }, []);
 
+    const VisuallyHiddenInput = styled('input')({
+        clip: 'rect(0 0 0 0)',
+        clipPath: 'inset(50%)',
+        height: 1,
+        overflow: 'hidden',
+        position: 'absolute',
+        bottom: 0,
+        left: 0,
+        whiteSpace: 'nowrap',
+        width: 1,
+    });
     return (
         <Modal
             open={open}
@@ -64,6 +77,28 @@ function CreatePegawaiModal(props) {
                         Tambah Data Pegawai
                     </h2>
                     <form onSubmit={onModalSubmit} className="space-y-4">
+                        <img
+                            src={`${profile}`}
+                            alt="Foto Profil"
+                            className="rounded-md h-32 w-24 block"
+                        />
+                        <Button
+                            component="label"
+                            role={undefined}
+                            variant="contained"
+                            tabIndex={-1}
+                            startIcon={<FaCloud/>}
+                        >
+                            Upload Foto
+                            <VisuallyHiddenInput
+                                type="file"
+                                name={'photo_profile'}
+                                onChange={e => {
+                                    setFormData({...formData, photo_profile: e.target.files[0]});
+                                    setProfile(URL.createObjectURL(e.target.files[0]))
+                                }}
+                            />
+                        </Button>
                         <TextField
                             label="NIP"
                             name="nip"

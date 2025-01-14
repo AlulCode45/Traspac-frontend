@@ -17,6 +17,7 @@ export default function Pegawai() {
     const navigate = useNavigate()
 
     const [formData, setFormData] = useState({
+        photo_profile: '',
         nip: '',
         nama: '',
         tempat_lahir: '',
